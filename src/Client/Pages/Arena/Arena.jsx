@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import _ from "lodash";
 // Boardgame.io
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
 
 // Utils
-import api from 'service/api';
+import api from 'Service/api';
 import K from "utils/constants";
 import Simulator from "Game.js";
 

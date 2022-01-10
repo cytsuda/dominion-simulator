@@ -1,14 +1,20 @@
 import React from "react";
+import clsx from "clsx";
 
 // Style
 import classes from "./CardComponent.module.css"
 
-const CardComponent = props => {
-  const { children, onClick, onMouseEnter } = props;
+const CardComponent = ({
+  disabled = false,
+  children,
+  onClick,
+  onMouseEnter
+}) => {
+
 
   return (
     <div
-      className={classes.card}
+      className={clsx(classes.card, disabled && classes.disabled)}
       onClick={onClick}
       onMouseEnter={onMouseEnter}
     >

@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/status-segment.css";
+import "ui/styles/status-segment.css";
 
 const StatusSegment = (props) => (
     <div className="segment">

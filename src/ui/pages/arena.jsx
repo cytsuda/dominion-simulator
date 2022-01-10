@@ -1,26 +1,32 @@
 import React, { useState } from "react";
-import MenuLayer from "../components/fragments/menu-layer";
-import DeckColumn from "../components/fragments/deck-column";
-import HandColumn from "../components/fragments/hand-column";
-import Strings from "../../utils/strings";
-import { getDeckService } from "../../service/api";
+
+// New DeckColumnComponent
+import DeckColumnOut from "Client/Components/DeckColumn/DeckColumn"
+
+// Custom Components - create by master
+import MenuLayer from "ui/components/fragments/menu-layer";
+import DeckColumn from "ui/components/fragments/deck-column";
+import HandColumn from "ui/components/fragments/hand-column";
+import Strings from "utils/strings";
+import { getDeckService } from "Service/api";
 import getDeckActionsOnMenu, {
   getDeckForSearch,
   constructDeck,
-} from "../../actions/deck";
-import getOOGForSearch from "../../actions/out";
-import getDZForSearch from "../../actions/destroy";
+} from "actions/deck";
+import getOOGForSearch from "actions/out";
+import getDZForSearch from "actions/destroy";
 import getHandActionsOnMenu, {
   spawnFaceDown,
   spawnFaceUp,
-} from "../../actions/hand";
-import { reborn } from "../../actions/destroy";
-import { getLifeMenu } from "../../actions/controls";
-import "../styles/arena.css";
-import ControlColumn from "../components/fragments/control-column";
-import StatusColumn from "../components/fragments/status-column";
-import Card from "../components/card";
-import getBoardActionMenu, { moveInBoard, getTileCardsList } from "../../actions/board";
+} from "actions/hand";
+import { reborn } from "actions/destroy";
+import { getLifeMenu } from "actions/controls";
+import "ui/styles/arena.css";
+import ControlColumn from "ui/components/fragments/control-column";
+import StatusColumn from "ui/components/fragments/status-column";
+import Card from "ui/components/card";
+import getBoardActionMenu, { moveInBoard, getTileCardsList } from "actions/board";
+
 
 const Arena = (props) => {
   console.log(props.deckID);
@@ -33,8 +39,11 @@ const Arena = (props) => {
   const [lifeMenu, setLifeMenu] = useState(null);
   const [selectToBoard, setSelectToBoard] = useState(null);
 
-  const isSelected = (place) =>
-    selectToBoard && selectToBoard.origin[place] !== undefined;
+  const isSelected = (place) => {
+    console.log("isSelected - function");
+    console.log(place)
+    return selectToBoard && selectToBoard.origin[place] !== undefined;
+  }
 
   React.useEffect(() => {
     const deckStart = async () => {
@@ -122,54 +131,66 @@ const Arena = (props) => {
     },
   };
 
+  console.log("DeckMenu")
+  console.log(deckMenu)
   return (
-    <div className="arena">
-      <MenuLayer
-        actionMenu={actionMenu}
-        listMenu={listMenu}
-        revealMenu={props.G.reveal[myID]}
-        lifeMenu={lifeMenu}
-        ids={[myID, rivalID]}
-        moves={Object.assign(props.moves, clientSideMoves)}
-        highlight={setHighlightCard}
-        clear={clearMenuCallback}
-      />
+    <div style={{ display: "flex", flexDirection: "column", gridGap: 50 }} >
+      <div style={{ padding: 50, backgroundColor: 'rgba(0,0,0,.9)' }}>
+        <DeckColumnOut
+          ids={[myID, rivalID]}
+          decks={props.G.deck}
+          dzs={props.G.destroyZone}
+          out={props.G.out}
+        />
+      </div>
+      <div className="arena">
+        <MenuLayer
+          actionMenu={actionMenu}
+          listMenu={listMenu}
+          revealMenu={props.G.reveal[myID]}
+          lifeMenu={lifeMenu}
+          ids={[myID, rivalID]}
+          moves={Object.assign(props.moves, clientSideMoves)}
+          highlight={setHighlightCard}
+          clear={clearMenuCallback}
+        />
 
-      <DeckColumn
-        ids={[myID, rivalID]}
-        decks={props.G.deck}
-        dzs={props.G.destroyZone}
-        out={props.G.out}
-        selection={isSelected}
-        highlight={setHighlightCard}
-        menu={[deckMenu, dzMenu, oogMenu]}
-      />
+        <DeckColumn
+          ids={[myID, rivalID]}
+          decks={props.G.deck}
+          dzs={props.G.destroyZone}
+          out={props.G.out}
+          selection={isSelected}
+          highlight={setHighlightCard}
+          menu={[deckMenu, dzMenu, oogMenu]}
+        />
 
-      <HandColumn
-        ids={[myID, rivalID]}
-        life={props.G.life}
-        hand={props.G.hand}
-        board={props.G.board}
-        moves={props.moves}
-        actions={[
-          handMenu,
-          boardMenu,
-          selectToBoard,
-          clearSelectionCallback,
-          setHighlightCard,
-        ]}
-      />
+        <HandColumn
+          ids={[myID, rivalID]}
+          life={props.G.life}
+          hand={props.G.hand}
+          board={props.G.board}
+          moves={props.moves}
+          actions={[
+            handMenu,
+            boardMenu,
+            selectToBoard,
+            clearSelectionCallback,
+            setHighlightCard,
+          ]}
+        />
 
-      <ControlColumn
-        ids={[myID, rivalID]}
-        currentPlayer={parseInt(props.ctx.currentPlayer)}
-        moves={props.moves}
-        events={props.events}
-        reveal={props.G.reveal}
-      />
+        <ControlColumn
+          ids={[myID, rivalID]}
+          currentPlayer={parseInt(props.ctx.currentPlayer)}
+          moves={props.moves}
+          events={props.events}
+          reveal={props.G.reveal}
+        />
 
-      <StatusColumn card={highlightCard} />
-    </div>
+        <StatusColumn card={highlightCard} />
+      </div>
+    </div >
   );
 };
 

@@ -1,44 +1,44 @@
 import React from "react";
-import Card from "./card";
-import Button from "./button";
+import Card from "ui/components/card";
+import Button from "ui/components/button";
 import Strings from "../../utils/strings";
-import { doWhenClickOutside } from "../../utils/menu";
-import "../styles/menu-list.css";
-
+import { doWhenClickOutside } from "utils/menu";
+import "ui/styles/menu-list.css";
 
 const MenuList = (props) => {
     const clickRef = React.useRef(null);
 
     const getExtraCardClass = (card) => {
-        if(props.menu.header === Strings.oogHeader){
+        if (props.menu.header === Strings.oogHeader) {
             return card.controller === props.ids[0] ? " user-border" : " rival-border";
         }
         return ""
     }
 
-    React.useEffect(() => {doWhenClickOutside(clickRef, props.clear)}
-    ,[clickRef, props]);
+    React.useEffect(() => { doWhenClickOutside(clickRef, props.clear) }
+        , [clickRef, props]);
 
-    return(
-        <div className="menu-list-container"  
-        ref={clickRef}>
+    return (
+        <div className="menu-list-container"
+            ref={clickRef}>
             <div className="header">
                 {props.menu.header}
                 <Button extraClass=" quit"
-                click={props.clear}
+                    click={props.clear}
                 >X</Button>
             </div>
             <div className="menu-list">
                 {props.menu.cards.map((card, index) => (
-                <Card
-                extraClass={getExtraCardClass(card)} 
-                click={(e) => props.click(e, index)}
-                card={card}
-                highlight={props.highlight} 
-                key={index}/>
-            ))}
+                    <Card
+                        extraClass={getExtraCardClass(card)}
+                        click={(e) => props.click(e, index)}
+                        card={card}
+                        highlight={props.highlight}
+                        key={index} />
+                ))}
             </div>
         </div>
-)}
+    )
+}
 
 export default MenuList;

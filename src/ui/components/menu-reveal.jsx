@@ -1,21 +1,20 @@
 import React from "react";
-import Button from "../components/button"
-import Card from "./card";
-import "../styles/menu-reveal.css";
-
+import Button from "ui/components/button";
+import Card from "ui/components/card";
+import "ui/styles/menu-reveal.css";
 
 const MenuReveal = (props) => {
 
     const getContent = () => {
         let content = props.menu.content;
-        if(content.hasOwnProperty("id")){
-            return (<Card highlight={props.highlight} card={content}/>)
-        } else if(content.hasOwnProperty("ref")){
-            return (<img src={content.ref} alt={content.title}/>)
+        if (content.hasOwnProperty("id")) {
+            return (<Card highlight={props.highlight} card={content} />)
+        } else if (content.hasOwnProperty("ref")) {
+            return (<img src={content.ref} alt={content.title} />)
         }
     };
 
-    return(
+    return (
         <div className="menu-reveal-layer">
             <div className="menu-reveal">
                 <div className="reveal-text">
@@ -30,6 +29,7 @@ const MenuReveal = (props) => {
                 <Button click={props.clear}>OK</Button>
             </div>
         </div>
-)}
+    )
+}
 
 export default MenuReveal;

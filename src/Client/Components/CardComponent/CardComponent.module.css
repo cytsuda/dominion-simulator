@@ -1,9 +1,13 @@
 .card {
   height: 10rem;
   width: 7rem;
-  background-color: lightblue;
+  border: 1px solid white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.disabled {
+  border: 1px solid red;
 }

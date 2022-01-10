@@ -1,13 +1,14 @@
 import React from "react";
-import { orNothing } from "../../utils/help";
-import "../styles/jar.css";
+import { orNothing } from "utils/help";
+import 'ui/styles/jar.css';
 
 const Jar = (props) => (
-    <div 
-    className={"hoverable jar "+orNothing(props.extraClass)} 
-    onClick={props.click}>
+    <div
+        className={"hoverable jar " + orNothing(props.extraClass)}
+        onClick={props.click}
+    >
         {props.children}
-        </div>
+    </div>
 )
 
 export default Jar;

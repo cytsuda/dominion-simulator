@@ -1,33 +1,36 @@
 import React from "react";
-import { doWhenClickOutside } from "../../utils/menu";
-import "../styles/menu.css";
+import { doWhenClickOutside } from "utils/menu";
+import "ui/styles/menu.css";
 
 const Menu = (props) => {
-    const clickRef = React.useRef(null);
-    const isMouseUpTheCenter = window.innerHeight / 2 > props.posY
-    const style = isMouseUpTheCenter ? {
-        left: props.posX,
-        top: props.posY
-    } : {
-        left: props.posX,
-        bottom: window.innerHeight-props.posY 
-    }
+  const clickRef = React.useRef(null);
+  const isMouseUpTheCenter = window.innerHeight / 2 > props.posY
+  const style = isMouseUpTheCenter ? {
+    left: props.posX,
+    top: props.posY
+  } : {
+    left: props.posX,
+    bottom: window.innerHeight - props.posY
+  }
 
-    React.useEffect(() => doWhenClickOutside(clickRef, props.clear),[clickRef, props]);
-    
-    let menuClick = (item) => {
-        props.moves[item.event].apply(this, item.args);
-        props.clear();
-    };
+  React.useEffect(() => doWhenClickOutside(clickRef, props.clear), [clickRef, props]);
 
-    return(
-        <div className="menu" 
-        style={style} 
-        ref={clickRef}>
-            {props.items.map((item, index) => (
-            <div className="menu-item" onClick={() => menuClick(item)} key={index}>{item.name}</div>
-        ))}
-        </div>
-)}
+  let menuClick = (item) => {
+    props.moves[item.event].apply(this, item.args);
+    props.clear();
+  };
+
+  return (
+    <div
+      className="menu"
+      style={style}
+      ref={clickRef}
+    >
+      {props.items.map((item, index) => (
+        <div className="menu-item" onClick={() => menuClick(item)} key={index}>{item.name}</div>
+      ))}
+    </div>
+  )
+}
 
 export default Menu;
